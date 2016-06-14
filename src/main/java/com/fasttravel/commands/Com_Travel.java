@@ -14,6 +14,8 @@
 
 package com.fasttravel.commands;
 
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -37,7 +39,12 @@ public class Com_Travel implements CommandExecutor{
         Player player;
         if(sender instanceof Player){
             player = (Player) sender;
+        } else {
+            return false;
         }
+        
+        Location l = new Location(null, 0, 0, 0);
+        player.teleport(l);
         return false;
     }
 }
