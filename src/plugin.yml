@@ -1,0 +1,7 @@
+name: FastTravel-1.0
+main: fasttravel.FastTravel
+version: 1.0
+commands:
+  ft:
+    description: Teleports you to the specified and discovered place
+    usage: /ft

@@ -1,0 +1,13 @@
+name: FastTravel-1.0
+main: com.fasttravel.FastTravel
+version: 1.0
+commands:
+  ft:
+    description: Teleports you to the specified and discovered place
+    usage: /ft
+  create_location:
+    description: Create a dicoverable area
+    usage: /create_location
+  specify_ft_point:
+    discription: Creates a point where a fast-traveller gets to
+    usage: /specify_ft_point
