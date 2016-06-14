@@ -5,6 +5,7 @@
  */
 package com.fasttravel;
 
+import com.fasttravel.commands.Com_Travel;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
