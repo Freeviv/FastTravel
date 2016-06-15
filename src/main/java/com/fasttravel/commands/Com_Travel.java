@@ -14,6 +14,7 @@
 
 package com.fasttravel.commands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
@@ -43,8 +44,9 @@ public class Com_Travel implements CommandExecutor{
             return false;
         }
         
-        Location l = new Location(null, 0, 0, 0);
+        Location l = new Location(Bukkit.getWorld("world"), 0, 0, 0);
         player.teleport(l);
+        Bukkit.broadcastMessage(Bukkit.getWorlds().toString());
         return false;
     }
 }

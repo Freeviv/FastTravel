@@ -17,9 +17,8 @@ package com.fasttravel;
 import com.fasttravel.commands.Com_Travel;
 import com.fasttravel.commands.Com_create_location;
 import com.fasttravel.commands.Com_specify_ft_point;
-import com.mongodb.MongoClient;
+import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.mongodb.morphia.Morphia;
 
 /**
  *
@@ -28,9 +27,7 @@ import org.mongodb.morphia.Morphia;
 public class FastTravel extends JavaPlugin {
 
     private Config conf;
-    private MongoClient mc;
-    private Morphia morphia;
-    
+
     // Fired when plugin is first enabled
     @Override
     public void onEnable() {
@@ -51,11 +48,13 @@ public class FastTravel extends JavaPlugin {
         this.getCommand("ft").setExecutor(new Com_Travel());
         this.getCommand("create_location").setExecutor(new Com_create_location());
         this.getCommand("specify_ft_point").setExecutor(new Com_specify_ft_point());
+        
+        getServer().getPluginManager().registerEvents(new FT_Listener(), this);
     }
     // Fired when plugin is disabled
     @Override
     public void onDisable() {
-        
+        HandlerList.unregisterAll();
     }
     
 }
