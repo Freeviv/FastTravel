@@ -34,10 +34,9 @@ public class FastTravel extends JavaPlugin {
         conf = new Config(this.getConfig());
         saveConfig();
         
-        boolean updateAvailable = false;
         System.out.println("[FastTravel] Welcome to FastTravel!");
         System.out.println("[FastTravel] Checking for updates...");
-        if(updateAvailable){
+        if(Utils.check_for_update()){
             System.out.println("[FastTravel] New update available!");
         } else {
             System.out.println("[FastTravel] No update available");

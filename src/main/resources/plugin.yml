@@ -11,3 +11,6 @@ commands:
   specify_ft_point:
     discription: Creates a point where a fast-traveller gets to
     usage: /specify_ft_point
+  remove_location:
+    discription: Creates a point where a fast-traveller gets to
+    usage: /remove_location <name>

@@ -17,12 +17,16 @@ import org.mongodb.morphia.annotations.Id;
 public class Area {
     @Id
     public int id;
-    double x1;
-    double y1;
-    double z1;
-    double x2;
-    double y2;
-    double z2;
+    
+    // Area coords
+    public double x1;
+    public double y1;
+    public double z1;
+    public double x2;
+    public double y2;
+    public double z2;
+    
+    public String name;
     
     public void set_area_dimensions(double x1, double y1, double z1, double x2, double y2, double z2){
         this.x1 = x1;

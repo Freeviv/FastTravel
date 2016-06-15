@@ -33,9 +33,9 @@ public class User
     @Property("name_history")
     public List<String> nameHistory = new ArrayList<>();
     
-    public List<String> areas_discovered = new ArrayList<>();
+    public List<Area> areas_discovered = new ArrayList<>();
     
-    public List<String> areas_not_discovered = new ArrayList<>();
+    public List<Area> areas_not_discovered = new ArrayList<>();
     
     void setUUID(final String uuid) {
         if(uuid.trim().isEmpty() || uuid == null){
