@@ -7,7 +7,6 @@ package com.fasttravel.commands;
 
 import com.fasttravel.db.Area;
 import com.fasttravel.db.AreaDB;
-import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

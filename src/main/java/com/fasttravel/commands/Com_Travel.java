@@ -14,6 +14,9 @@
 
 package com.fasttravel.commands;
 
+import com.fasttravel.db.Area;
+import com.fasttravel.db.AreaDB;
+import com.fasttravel.db.PlayerDB;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -43,9 +46,22 @@ public class Com_Travel implements CommandExecutor{
         } else {
             return false;
         }
+        if(arg1.length < 1){
+            player.sendMessage("You have to specify the area!");
+            return false;
+        }
+        Area to_tp = AreaDB.getInstance().get_area_in_db(arg1[1]);
+        if(to_tp == null){
+            player.sendMessage("There is no area named " + arg1[1] + "!");
+            return false;
+        }
+        if(PlayerDB.getInstance().getUserByPlayer(player).areas_discovered.contains(to_tp)){
+            player.teleport(to_tp.loc);
+        } else {
+            player.sendMessage("You have not discovered " + arg1[0] + " yet!");
+        }
         
-        Location l = new Location(Bukkit.getWorld("world"), 0, 0, 67);
-        player.teleport(l);
+        //player.teleport();
         Bukkit.broadcastMessage(Bukkit.getWorlds().toString());
         return false;
     }
