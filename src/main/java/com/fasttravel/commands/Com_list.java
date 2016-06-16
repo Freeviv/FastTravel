@@ -36,7 +36,7 @@ public class Com_list implements CommandExecutor {
             if(all.isEmpty()){
                 player.sendMessage("No areas available");
             }else{
-                player.sendMessage(all.toString());
+                player.sendMessage(list_to_string(all));
             }
         } else {
             if(strings[0].equals("disc")){
@@ -44,7 +44,7 @@ public class Com_list implements CommandExecutor {
                 if(a.size() < 1){
                     player.sendMessage("You no discovered areas!");
                 } else {
-                    player.sendMessage(a.toString());
+                    player.sendMessage(list_to_string(a));
                 }
                 
             }else if(strings[0].equals("nondisc")){
@@ -56,7 +56,7 @@ public class Com_list implements CommandExecutor {
                         player.sendMessage("You discovered all areas!");
                     }
                 } else {
-                    player.sendMessage(a.toString());
+                    player.sendMessage(list_to_string(a));
                 }
             } else {
                 // Need some red color
@@ -64,6 +64,14 @@ public class Com_list implements CommandExecutor {
             }
         }
         return true;
+    }
+    
+    private String list_to_string(List<Area> a){
+        String ret = new String();
+        for(Area e:a){
+            ret += e.name + " ";
+        }
+        return ret;
     }
     
 }

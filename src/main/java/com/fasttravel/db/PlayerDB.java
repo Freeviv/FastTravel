@@ -6,6 +6,7 @@
 package com.fasttravel.db;
 
 import com.mongodb.MongoClient;
+import java.util.List;
 import org.bukkit.entity.Player;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
@@ -58,5 +59,12 @@ public class PlayerDB {
     public void saveUser(User user)
     {
         uDAO.save(user);
+    }
+    
+    public boolean add_area_to_all_player(Area area){
+        List<User> a = uDAO.find().asList();
+        for(User u:a){
+            u.areas_not_discovered.add(area);
+        } return true;
     }
 }
