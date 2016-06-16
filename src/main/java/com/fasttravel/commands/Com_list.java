@@ -63,9 +63,6 @@ public class Com_list implements CommandExecutor {
                 player.sendMessage("/ft_list " + strings[0] + " is not a known command!");
             }
         }
-        
-        
-        player.sendMessage(strings);
         return true;
     }
     
