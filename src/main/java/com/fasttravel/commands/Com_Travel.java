@@ -44,7 +44,7 @@ public class Com_Travel implements CommandExecutor{
             return false;
         }
         
-        Location l = new Location(Bukkit.getWorld("world"), 0, 0, 0);
+        Location l = new Location(Bukkit.getWorld("world"), 0, 0, 67);
         player.teleport(l);
         Bukkit.broadcastMessage(Bukkit.getWorlds().toString());
         return false;

@@ -21,14 +21,15 @@ public class AreaDB {
     private MongoClient mc;
     private Morphia morphia;
     private Datastore datastore;
+    private AreaDAO dao;
     
     private AreaDB(){
         mc = new MongoClient();
         morphia = new Morphia();
         morphia.map(User.class);
-        datastore = morphia.createDatastore(mc, "players");
+        datastore = morphia.createDatastore(mc, "areas");
         datastore.ensureIndexes();
-        //uDAO = new UserDAO(User.class, datastore);
+        dao = new AreaDAO(Area.class, datastore);
     }
     
     public static AreaDB getInstance(){
@@ -37,8 +38,12 @@ public class AreaDB {
         }
         return instance;
     }
+   
+    public void add_area_to_db(Area a){
+        dao.save(a);
+    }
     
     public List<Area> get_all_areas(){
-        return null;
+        return dao.find().asList();
     }
 }

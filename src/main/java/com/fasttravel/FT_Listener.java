@@ -39,12 +39,7 @@ public class FT_Listener implements Listener{
              sync_player_areas(a);
          }
      }
-     
-     @EventHandler
-     public void onListenerStart(ServerEvent e){
-         
-     }
-     
+          
      private boolean areas_sync(User u){
          if(areas.size() == (u.areas_discovered.size() + u.areas_not_discovered.size())){
              return false;
@@ -64,4 +59,5 @@ public class FT_Listener implements Listener{
              u.areas_not_discovered.addAll(a);
          }
      }
+
 }

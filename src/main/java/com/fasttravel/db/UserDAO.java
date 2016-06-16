@@ -6,8 +6,7 @@ import org.mongodb.morphia.dao.BasicDAO;
 public class UserDAO extends BasicDAO<User, String>
 {
 
-    public UserDAO(Class<User> entityClass, Datastore ds)
-    {
+    public UserDAO(Class<User> entityClass, Datastore ds) {
         super(entityClass, ds);
     }
 

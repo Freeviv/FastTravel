@@ -14,3 +14,7 @@ commands:
   remove_location:
     discription: Creates a point where a fast-traveller gets to
     usage: /remove_location <name>
+  ft_list:
+    discription: Lists all fasttravel areas
+    usage: /ft_list
+    
