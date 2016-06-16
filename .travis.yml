@@ -1,6 +1,6 @@
 
 language: java
 install:
-  - mvn compile
+  - mvn -e compile
   - mvn clean
 
