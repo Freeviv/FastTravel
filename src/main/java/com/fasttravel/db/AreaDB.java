@@ -46,4 +46,8 @@ public class AreaDB {
     public List<Area> get_all_areas(){
         return dao.find().asList();
     }
+    
+    public Area get_area_in_db(String name){
+        return dao.findOne("name", name);
+    }
 }

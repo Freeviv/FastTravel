@@ -5,9 +5,12 @@
  */
 package com.fasttravel.db;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
+import org.mongodb.morphia.annotations.IndexOptions;
+import org.mongodb.morphia.annotations.Indexed;
 
 /**
  *
@@ -26,7 +29,10 @@ public class Area {
     public double y2;
     public double z2;
     
+    @Indexed(options = @IndexOptions(unique = true))
     public String name;
+    
+    public Location loc;
     
     public void set_area_dimensions(double x1, double y1, double z1, double x2, double y2, double z2){
         this.x1 = x1;

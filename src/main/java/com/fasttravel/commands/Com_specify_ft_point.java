@@ -5,9 +5,13 @@
  */
 package com.fasttravel.commands;
 
+import com.fasttravel.db.Area;
+import com.fasttravel.db.AreaDB;
+import java.util.List;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 /**
  *
@@ -17,7 +21,28 @@ public class Com_specify_ft_point implements CommandExecutor{
 
     @Override
     public boolean onCommand(CommandSender cs, Command cmnd, String string, String[] strings) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Player player;
+        if(cs instanceof Player){
+            player = (Player) cs;
+        } else {
+            return false;
+        }
+        if(strings.length < 1){
+            player.sendMessage("The name of the area is needed!");
+            return false;
+        }
+        Area area = AreaDB.getInstance().get_area_in_db(strings[0]);
+        if(area == null){
+            player.sendMessage("No area named " + strings[0] + " in the database!");
+            return false;
+        }
+        if(!area.player_in_area(player)){
+            player.sendMessage("You have to be inside of the area!");
+            return false;
+        }
+        area.loc = player.getLocation();
+        player.sendMessage("Successfully change spawn point for the area: " + area.name);
+        return true;
     }
     
 }
