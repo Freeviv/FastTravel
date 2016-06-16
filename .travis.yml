@@ -1,4 +1,6 @@
 
 language: java
-mvn compile
-mvn clean
+install:
+  - mvn compile
+  - mvn clean
+
