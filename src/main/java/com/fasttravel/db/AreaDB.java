@@ -58,4 +58,13 @@ public class AreaDB {
             dao.delete(d);
         }
     }
+    
+    public boolean delete_area(String name){
+        Area area = dao.findOne("name", name);
+        if(area != null){
+            dao.delete(area);
+            return true;
+        }
+        return false;
+    }
 }

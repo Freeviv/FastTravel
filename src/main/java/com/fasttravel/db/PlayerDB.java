@@ -76,4 +76,13 @@ public class PlayerDB {
             uDAO.delete(d);
         }
     }
+    
+    public boolean delete_player(Player p){
+        User u = uDAO.findOne("uuid", p.getUniqueId().toString());
+        if(u != null){
+            uDAO.delete(u);
+            return true;
+        }
+        return false;
+    }
 }
