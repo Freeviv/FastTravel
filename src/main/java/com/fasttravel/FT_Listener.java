@@ -9,6 +9,7 @@ import com.fasttravel.db.AreaDB;
 import com.fasttravel.db.PlayerDB;
 import com.fasttravel.db.User;
 import java.util.List;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -48,15 +49,17 @@ public class FT_Listener implements Listener{
      
      @EventHandler
     public void onPlayerWalk(PlayerMoveEvent event) {
+        Player player = event.getPlayer();
+        // Aviod too many checks
+        if(player.getGameMode().equals(GameMode.SPECTATOR) || player.getGameMode().equals(GameMode.CREATIVE)){
+            return;
+        }
         // Only fire if the player changed position
         Location from = event.getFrom();
         Location to = event.getTo();
         if((from.getBlockX() == to.getBlockX()) && (from.getBlockY() == to.getBlockY()) && (from.getBlockZ() == to.getBlockZ())){
             return;
         }
-        Player player = event.getPlayer();
-        // DEbug
-        player.sendMessage("You moved!");
         User user = PlayerDB.getInstance().getUserByPlayer(player);
         List<Area> area = user.areas_not_discovered;
         if(!area.isEmpty()){

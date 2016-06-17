@@ -16,6 +16,6 @@ public class Utils {
      * @return true if there is a new version else false
      */
     public static boolean check_for_update() {
-        return true;
+        return false;
     }
 }

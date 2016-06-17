@@ -32,7 +32,6 @@ public class Com_list implements CommandExecutor {
             return false;
         }
         if(strings == null || strings.length < 1){
-            
             if(all.isEmpty()){
                 player.sendMessage("No areas available");
             }else{
@@ -49,12 +48,8 @@ public class Com_list implements CommandExecutor {
                 
             }else if(strings[0].equals("nondisc")){
                 a = PlayerDB.getInstance().getUserByPlayer(player).areas_not_discovered;
-                if(a.size() < 1){
-                    if(all.size() < 1) {
-                        player.sendMessage("This server has no discoverable area!");
-                    } else {
-                        player.sendMessage("You discovered all areas!");
-                    }
+                if((a.size() < 1) && !(all.size() < 1)){
+                    player.sendMessage("There are no areas to discover!");
                 } else {
                     player.sendMessage(list_to_string(a));
                 }
