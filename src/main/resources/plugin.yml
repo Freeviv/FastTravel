@@ -17,4 +17,8 @@ commands:
   ft_list:
     discription: Lists all fasttravel areas
     usage: /ft_list
+  reset:
+    discription: Dev tool to reset everything
+    usage: /reset
+      
     

@@ -9,6 +9,7 @@ import com.mongodb.MongoClient;
 import java.util.List;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
+import org.mongodb.morphia.query.Query;
 
 /**
  *
@@ -49,5 +50,12 @@ public class AreaDB {
     
     public Area get_area_in_db(String name){
         return dao.findOne("name", name);
+    }
+    
+    public void reset_db(){
+        List<Area> a = dao.find().asList();
+        for(Area d:a){
+            dao.delete(d);
+        }
     }
 }

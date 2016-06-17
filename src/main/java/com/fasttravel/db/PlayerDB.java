@@ -50,6 +50,8 @@ public class PlayerDB {
         {
             du = new User();
             du.setUUID(player.getUniqueId().toString());
+            du.username = player.getName();
+            du.areas_not_discovered.addAll(AreaDB.getInstance().get_all_areas());
             uDAO.save(du);
             System.out.println("[FastTravel] New player registed: " + player.getDisplayName());
         }
@@ -66,5 +68,12 @@ public class PlayerDB {
         for(User u:a){
             u.areas_not_discovered.add(area);
         } return true;
+    }
+    
+    public void reset_db(){
+        List<User> a = uDAO.find().asList();
+        for(User d:a){
+            uDAO.delete(d);
+        }
     }
 }
