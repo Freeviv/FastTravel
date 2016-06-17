@@ -9,10 +9,12 @@ import com.fasttravel.db.AreaDB;
 import com.fasttravel.db.PlayerDB;
 import com.fasttravel.db.User;
 import java.util.List;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.server.ServerEvent;
 
 
@@ -43,4 +45,29 @@ public class FT_Listener implements Listener{
              }
          }
      }
+     
+     @EventHandler
+    public void onPlayerWalk(PlayerMoveEvent event) {
+        // Only fire if the player changed position
+        Location from = event.getFrom();
+        Location to = event.getTo();
+        if((from.getBlockX() == to.getBlockX()) && (from.getBlockY() == to.getBlockY()) && (from.getBlockZ() == to.getBlockZ())){
+            return;
+        }
+        Player player = event.getPlayer();
+        // DEbug
+        player.sendMessage("You moved!");
+        User user = PlayerDB.getInstance().getUserByPlayer(player);
+        List<Area> area = user.areas_not_discovered;
+        if(!area.isEmpty()){
+            for(Area a:area){
+                if(a.player_in_area(player)){
+                    user.areas_discovered.add(a);
+                    user.areas_not_discovered.remove(a);
+                    player.sendMessage("You just discovered " + a.name + "!");
+                    player.sendMessage("A new fast travel point is now available.");
+                }
+            }
+        }
+    }
 }
