@@ -5,8 +5,6 @@
  */
 package com.fasttravel.commands;
 
-import com.fasttravel.db.Area;
-import com.fasttravel.db.AreaDB;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,7 +28,9 @@ public class Com_specify_ft_point implements CommandExecutor{
             player.sendMessage("The name of the area is needed!");
             return false;
         }
-        Area area = AreaDB.getInstance().get_area_in_db(strings[0]);
+        // TODO
+        //Area area = AreaDB.getInstance().get_area_in_db(strings[0]);
+        /*
         if(area == null){
             player.sendMessage("No area named " + strings[0] + " in the database!");
             return false;
@@ -41,6 +41,7 @@ public class Com_specify_ft_point implements CommandExecutor{
         }
         area.loc = player.getLocation();
         player.sendMessage("Successfully change spawn point for the area: " + area.name);
+        */
         return true;
     }
     

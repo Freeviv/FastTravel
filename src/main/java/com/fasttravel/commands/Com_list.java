@@ -5,11 +5,7 @@
  */
 package com.fasttravel.commands;
 
-import com.fasttravel.db.Area;
-import com.fasttravel.db.AreaDB;
-import com.fasttravel.db.PlayerDB;
 import java.util.List;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,6 +20,7 @@ public class Com_list implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender cs, Command cmnd, String string, String[] strings) {
         Player player;
+        /*
         List<Area> a;
         List<Area> all = AreaDB.getInstance().get_all_areas();
         if(cs instanceof Player){
@@ -57,15 +54,16 @@ public class Com_list implements CommandExecutor {
                 // Need some red color
                 player.sendMessage("/ft_list " + strings[0] + " is not a known command!");
             }
-        }
+        }*/
         return true;
     }
     
-    private String list_to_string(List<Area> a){
+    private String list_to_string(){
         String ret = new String();
+        /*
         for(Area e:a){
             ret += e.name + " ";
-        }
+        }*/
         return ret;
     }
     

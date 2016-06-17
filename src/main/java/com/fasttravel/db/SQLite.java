@@ -5,17 +5,10 @@
  */
 package com.fasttravel.db;
 
-import org.mongodb.morphia.Datastore;
-import org.mongodb.morphia.dao.BasicDAO;
-
 /**
  *
  * @author janschon
  */
-public class AreaDAO extends BasicDAO<Area, String>{
-    
-    public AreaDAO(Class<Area> entityClass, Datastore ds) {
-        super(entityClass, ds);
-    }
+public class SQLite {
     
 }

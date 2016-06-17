@@ -4,10 +4,6 @@
  * and open the template in the editor.
  */
 package com.fasttravel;
-import com.fasttravel.db.Area;
-import com.fasttravel.db.AreaDB;
-import com.fasttravel.db.PlayerDB;
-import com.fasttravel.db.User;
 import java.util.List;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -16,7 +12,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.server.ServerEvent;
 
 
 /**
@@ -25,7 +20,6 @@ import org.bukkit.event.server.ServerEvent;
  */
 public class FT_Listener implements Listener{
     
-    private static List<Area> areas;
     
     /**
      * Eventlistener for Playerjoining
@@ -34,6 +28,7 @@ public class FT_Listener implements Listener{
     @EventHandler
      public void onPlayerJoin(PlayerJoinEvent event)
      {
+         /*
          if(areas == null){
              areas = AreaDB.getInstance().get_all_areas();
          }
@@ -45,6 +40,7 @@ public class FT_Listener implements Listener{
                  evPlayer.sendMessage("There is a new Update available for FastTravel!");
              }
          }
+*/
      }
      
      @EventHandler
@@ -59,7 +55,7 @@ public class FT_Listener implements Listener{
         Location to = event.getTo();
         if((from.getBlockX() == to.getBlockX()) && (from.getBlockY() == to.getBlockY()) && (from.getBlockZ() == to.getBlockZ())){
             return;
-        }
+        }/*
         User user = PlayerDB.getInstance().getUserByPlayer(player);
         List<Area> area = user.areas_not_discovered;
         if(!area.isEmpty()){
@@ -71,6 +67,6 @@ public class FT_Listener implements Listener{
                     player.sendMessage("A new fast travel point is now available.");
                 }
             }
-        }
+        }*/
     }
 }

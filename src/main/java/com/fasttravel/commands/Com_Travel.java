@@ -14,9 +14,6 @@
 
 package com.fasttravel.commands;
 
-import com.fasttravel.db.Area;
-import com.fasttravel.db.AreaDB;
-import com.fasttravel.db.PlayerDB;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -46,6 +43,7 @@ public class Com_Travel implements CommandExecutor{
         } else {
             return false;
         }
+        /*
         if(arg1.length < 1){
             player.sendMessage("You have to specify the area!");
             return false;
@@ -63,6 +61,7 @@ public class Com_Travel implements CommandExecutor{
         
         //player.teleport();
         Bukkit.broadcastMessage(Bukkit.getWorlds().toString());
+*/
         return false;
     }
 }

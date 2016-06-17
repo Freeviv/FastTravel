@@ -5,9 +5,6 @@
  */
 package com.fasttravel.commands;
 
-import com.fasttravel.db.Area;
-import com.fasttravel.db.AreaDB;
-import com.fasttravel.db.PlayerDB;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -41,11 +38,13 @@ public class Com_create_location implements CommandExecutor {
             player.sendMessage("An error accured during processing this command (NumberFormatException)");
             return false;
         }
+        /*
         Area a = new Area();
         a.set_area_dimensions(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5]);
         a.name = strings[0];
         AreaDB.getInstance().add_area_to_db(a);
         PlayerDB.getInstance().add_area_to_all_player(a);
+        */
         player.sendMessage("Succesfully created new area!");
         return true;
     }

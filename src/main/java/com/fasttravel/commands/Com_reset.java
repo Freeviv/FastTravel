@@ -5,8 +5,6 @@
  */
 package com.fasttravel.commands;
 
-import com.fasttravel.db.AreaDB;
-import com.fasttravel.db.PlayerDB;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -37,8 +35,8 @@ public class Com_reset implements CommandExecutor {
             player.sendMessage("Please confim deliting EVERYTHING");
             lock = true;
         } else {
-            AreaDB.getInstance().reset_db();
-            PlayerDB.getInstance().reset_db();
+            //AreaDB.getInstance().reset_db();
+            //PlayerDB.getInstance().reset_db();
         }
         return true;
     }
