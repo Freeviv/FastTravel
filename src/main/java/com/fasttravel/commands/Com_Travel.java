@@ -18,8 +18,6 @@ import com.fasttravel.db.Area;
 import com.fasttravel.db.AreaDB;
 import com.fasttravel.db.PlayerDB;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,13 +28,15 @@ import org.bukkit.entity.Player;
  * @author janschon
  */
 public class Com_Travel implements CommandExecutor{
+    
     /**
-     *
-     * @param sender
-     * @param com
+     * Implements the Command "/ft" thich allows the player to travel to different
+     * places on the server
+     * @param sender CommandSender (should be a human player)
+     * @param com Command
      * @param arg0
-     * @param arg1
-     * @return
+     * @param arg1 List of arguments, only first entry will be recognized
+     * @return true if the player was teleported else false
      */
     @Override
     public boolean onCommand(CommandSender sender, Command com, String arg0, String[] arg1) {

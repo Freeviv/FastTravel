@@ -34,6 +34,11 @@ public class Area {
     
     public Location loc;
     
+    // TODO add dimension
+    
+    /**
+     * Sets the dimension of the box-shaped area
+     */
     public void set_area_dimensions(double x1, double y1, double z1, double x2, double y2, double z2){
         this.x1 = x1;
         this.y1 = y1;
@@ -43,6 +48,11 @@ public class Area {
         this.z2 = z2;
     }
     
+    /**
+     * Helper methode to test weather a player is in a area or not
+     * @param p Player to be tested
+     * @return true if the player is in the area else false
+     */
     public boolean player_in_area(Player p){
         boolean f = true;
         f = point_between_two(x1, x2, p.getLocation().getX());
@@ -59,6 +69,14 @@ public class Area {
         return f;
     }
     
+    /**
+     * Helper Methode for the player_in_area-Methode. Tests if a point lays between
+     * two other (one dimensional points)
+     * @param p0 Point 1 
+     * @param p1 Point 2
+     * @param test Point to be tested
+     * @return true if the testpoint lays between the two other given points 
+     */
     private boolean point_between_two(double p0,double p1, double test){
         double t0 = p0-test;
         double t1 = p1-test;

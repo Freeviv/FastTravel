@@ -24,6 +24,10 @@ public class FT_Listener implements Listener{
     
     private static List<Area> areas;
     
+    /**
+     * Eventlistener for Playerjoining
+     * @param event 
+     */
     @EventHandler
      public void onPlayerJoin(PlayerJoinEvent event)
      {
@@ -38,35 +42,5 @@ public class FT_Listener implements Listener{
                  evPlayer.sendMessage("There is a new Update available for FastTravel!");
              }
          }
-         /*
-         // Sync available areas with the player modell
-         if(!areas_sync(a)){
-             sync_player_areas(a);
-         }
-*/
      }
-/*
-     private boolean areas_sync(User u){
-         if(areas.size() != (u.areas_discovered.size() + u.areas_not_discovered.size())){
-             return false;
-         }
-         if(areas.containsAll(u.areas_discovered) && areas.containsAll(u.areas_not_discovered)){
-             return true;
-         } else {
-             return false;
-        }
-     }
-     
-     private void sync_player_areas(User u){
-         List<Area> a = areas;
-         a.removeAll(u.areas_discovered);
-         a.removeAll(u.areas_not_discovered);
-         for(Area ab:a){
-             System.out.println(ab.name);
-         }
-         if(!a.isEmpty()){
-             u.areas_not_discovered.addAll(a);
-         }
-     }
-*/
 }

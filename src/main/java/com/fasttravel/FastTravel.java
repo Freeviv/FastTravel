@@ -23,14 +23,16 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- *
+ * Mainclass of this Plugin
  * @author janschon
  */
 public class FastTravel extends JavaPlugin {
 
     private Config conf;
 
-    // Fired when plugin is first enabled
+    /**
+     * Fired when plugin is first enabled
+     */
     @Override
     public void onEnable() {
         conf = new Config(this.getConfig());
@@ -54,7 +56,9 @@ public class FastTravel extends JavaPlugin {
         
         getServer().getPluginManager().registerEvents(new FT_Listener(), this);
     }
-    // Fired when plugin is disabled
+    /**
+     * Fired when plugin is disabled
+     */
     @Override
     public void onDisable() {
         HandlerList.unregisterAll();

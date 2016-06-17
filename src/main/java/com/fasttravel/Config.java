@@ -25,6 +25,11 @@ public class Config {
     private boolean do_backups;
     private int backup_cycle;
     
+    /**
+     * Constructor for the Config-Object
+     * This should enable a faster access to the different settings
+     * @param conf ConfigurationFile from the main-class
+     */
     public Config(FileConfiguration conf){
         if(!conf.getBoolean("init")){
             System.out.println("[FastTravel] No Config file found! Creating...");
@@ -34,6 +39,11 @@ public class Config {
         load_config(conf);
     }
     
+    /**
+     * Initialize the FileConfiguration
+     * @param c FileConfiguration wich should be initialized
+     * @return true if everythings initialized
+     */
     private boolean init_config(FileConfiguration c){
         c.addDefault("init", true);
         c.addDefault("check_for_updates", true);
@@ -44,6 +54,11 @@ public class Config {
         return true;
     }
     
+    /**
+     * Load the different settings from FileConfiguration
+     * @param c FileConfiguration from wich the settings will be loaded from
+     * @return true if everything is loaded or false if not
+     */
     private boolean load_config(FileConfiguration c){
         check_for_updates = c.getBoolean("check_for_updates");
         do_backups = c.getBoolean("do_backups");
