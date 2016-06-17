@@ -1,3 +1,5 @@
+package com.fasttravel.commands;
+
 /*
  * Copyright (C) 2016  Jan Schoneberg
  * This program is free software: you can redistribute it and/or modify it under the terms of
@@ -12,7 +14,7 @@
  * If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.fasttravel.commands;
+
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -24,7 +26,7 @@ import org.bukkit.entity.Player;
  *
  * @author janschon
  */
-public class Com_Travel implements CommandExecutor{
+public class Com_fast_travel implements CommandExecutor{
     
     /**
      * Implements the Command "/ft" thich allows the player to travel to different

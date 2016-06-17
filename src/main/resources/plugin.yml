@@ -7,18 +7,6 @@ commands:
     usage: /ft <FT-Location>
   create_location:
     description: Create a dicoverable area
-    usage: /create_location <name> [<x1> <y1> <z1> <x2> <y2> <z2>][2x /sb for the borders]
-  specify_ft_point:
-    discription: Creates a point where a fast-traveller gets to
-    usage: /specify_ft_point
-  remove_location:
-    discription: Creates a point where a fast-traveller gets to
-    usage: /remove_location <name>
-  ft_list:
-    discription: Lists all fasttravel areas
-    usage: /ft_list
-  reset:
-    discription: Dev tool to reset everything
-    usage: /reset
+    usage: /create_location <name>
       
     

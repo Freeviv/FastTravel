@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package com.fasttravel;
-import java.util.List;
+
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
