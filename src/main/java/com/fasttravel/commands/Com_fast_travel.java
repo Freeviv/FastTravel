@@ -16,20 +16,38 @@ package com.fasttravel.commands;
 
 
 
+import com.fasttravel.FastTravel;
 import com.fasttravel.db.Area;
 import com.fasttravel.db.StorePoints;
-import org.bukkit.Bukkit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.plugin.Plugin;
+
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 /**
  *
  * @author janschon
  */
 public class Com_fast_travel implements CommandExecutor{
+    
+    Plugin pl;
+    
+    public void setPlugin(Plugin p){
+        pl = p;
+    }
+    
     
     /**
      * Implements the Command "/ft" thich allows the player to travel to different
@@ -63,12 +81,23 @@ public class Com_fast_travel implements CommandExecutor{
             player.sendMessage("You have not discovered this point yet!");
             return false;
         }
+        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, -100));
+        player.teleport(new Location(player.getWorld(), player.getLocation().getBlockX(), 10000, player.getLocation().getBlockX()));
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                player.setFallDistance(0);
+                player.teleport(new Location(player.getLocation().getWorld(), a.getX(), a.getY(), a.getZ()));
+            }
+        }.runTaskLater(pl, 20*10);
         waitTillArrival(player);
-        player.teleport(new Location(player.getLocation().getWorld(), a.getX(), a.getY(), a.getZ()));
+        player.playSound(player.getLocation(), Sound.BLOCK_GRAVEL_STEP, (float) 0.3, 1);
+        
         return true;
     }
     
     private void waitTillArrival(Player p){
-        
+                // Normal speed?
+        p.setWalkSpeed((float) 0.225);
     }
 }

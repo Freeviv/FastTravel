@@ -22,19 +22,29 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class Config {
     private double travel_time_factor;
     private String name;
+    private int adr;
+    
+    private static Config instance;
     
     /**
      * Constructor for the Config-Object
      * This should enable a faster access to the different settings
      * @param conf ConfigurationFile from the main-class
      */
-    public Config(FileConfiguration conf){
+    private Config(FileConfiguration conf){
         if(!conf.getBoolean("init")){
             System.out.println("[FastTravel] No Config file found! Creating...");
             init_config(conf);
         }
         conf.options().copyDefaults(true);
         load_config(conf);
+    }
+    
+    public static Config getInstance(FileConfiguration c){
+        if(instance == null && c != null){
+            instance = new Config(c);
+        }
+        return instance;
     }
 
     
@@ -47,6 +57,7 @@ public class Config {
         c.addDefault("init", true);
         c.addDefault("travel_time_factor", (double)0.5);
         c.addDefault("file_name", "areas");
+        c.addDefault("area_discover_radius", (int)10);
         return true;
     }
     
@@ -58,10 +69,15 @@ public class Config {
     private boolean load_config(FileConfiguration c){
         travel_time_factor = c.getDouble("travel_time_factor");
         name = c.getString("file_name");
+        adr = c.getInt("area_discover_radius");
         return false;
     }
     
     public String getFileName(){
         return name;
+    }
+    
+    public int getAreaDiscoverRadius(){
+        return adr;
     }
 }

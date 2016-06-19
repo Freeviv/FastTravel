@@ -30,7 +30,9 @@ import javax.xml.stream.events.XMLEvent;
  */
 public class StorePoints {
 
-    private final static String file_name = "xml_file.xml";
+    // Maybe a bett path
+    private final static String path = "plugins/FastTravel-1.0/";
+    private final static String file_name = "areas.xml";
     private static List<Area> area = new ArrayList<>();
     private static List<String> names = new ArrayList<>();
     
@@ -40,12 +42,12 @@ public class StorePoints {
     private XMLEventReader reader = null;
     
     private StorePoints(){
-        File tmp = new File(file_name);
+        File tmp = new File(path + file_name);
         if(!tmp.exists()){
             writeAll();
         }
         try {
-            reader = factory.createXMLEventReader(new FileReader(file_name));
+            reader = factory.createXMLEventReader(new FileReader(path + file_name));
             readFile();
         } catch (XMLStreamException | FileNotFoundException ex) {
             Logger.getLogger(StorePoints.class.getName()).log(Level.SEVERE, null, ex);
@@ -148,7 +150,7 @@ public class StorePoints {
         String start = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n" +
                         "<class>";
         String end = "</class>";
-        File f = new File("out_tmp.xml");
+        File f = new File(path + "out_tmp.xml");
         try {
             if(!f.exists()){
                 f.createNewFile();
@@ -188,10 +190,7 @@ public class StorePoints {
         } catch (IOException ex) {
             Logger.getLogger(StorePoints.class.getName()).log(Level.SEVERE, null, ex);
         }
-        File old_file = new File(file_name);
-        if(old_file.exists()){
-            old_file.delete();
-        }
+        File old_file = new File(path + file_name);
         f.renameTo(old_file);
     }
     
@@ -211,5 +210,9 @@ public class StorePoints {
             }
         }
         return null;
+    }
+    
+    public List<Area> getAllAreas(){
+        return area;
     }
 }
