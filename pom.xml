@@ -27,43 +27,8 @@
             <version>1.10-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!-- DB API -->
-        <dependency>
-            <groupId>org.mongodb.morphia</groupId>
-            <artifactId>morphia</artifactId>
-            <version>1.1.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mongodb</groupId>
-            <artifactId>mongo-java-driver</artifactId>
-            <version>3.2.2</version>
-        </dependency>
     </dependencies>
     <build>
-        <plugins>
-            <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-shade-plugin</artifactId>
-            <version>2.3</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <artifactSet>
-                                <includes>
-                                    <include>org.mongodb</include>
-                                    <include>org.mongodb.morphia</include>
-                                </includes>
-                            </artifactSet>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
         <resources>
             <resource>
                 <targetPath>.</targetPath>

@@ -20,17 +20,18 @@ import org.bukkit.configuration.file.FileConfiguration;
  * @author janschon
  */
 public class Config {
-    private boolean check_for_updates;
     private double travel_time_factor;
-    private boolean do_backups;
-    private int backup_cycle;
+    private String name;
+    private int adr;
+    
+    private static Config instance;
     
     /**
      * Constructor for the Config-Object
      * This should enable a faster access to the different settings
      * @param conf ConfigurationFile from the main-class
      */
-    public Config(FileConfiguration conf){
+    private Config(FileConfiguration conf){
         if(!conf.getBoolean("init")){
             System.out.println("[FastTravel] No Config file found! Creating...");
             init_config(conf);
@@ -39,6 +40,14 @@ public class Config {
         load_config(conf);
     }
     
+    public static Config getInstance(FileConfiguration c){
+        if(instance == null && c != null){
+            instance = new Config(c);
+        }
+        return instance;
+    }
+
+    
     /**
      * Initialize the FileConfiguration
      * @param c FileConfiguration wich should be initialized
@@ -46,11 +55,9 @@ public class Config {
      */
     private boolean init_config(FileConfiguration c){
         c.addDefault("init", true);
-        c.addDefault("check_for_updates", true);
         c.addDefault("travel_time_factor", (double)0.5);
-        c.addDefault("do_backups", true);
-        // In sec
-        c.addDefault("backup_cycle", true);
+        c.addDefault("file_name", "areas");
+        c.addDefault("area_discover_radius", (int)10);
         return true;
     }
     
@@ -60,8 +67,17 @@ public class Config {
      * @return true if everything is loaded or false if not
      */
     private boolean load_config(FileConfiguration c){
-        check_for_updates = c.getBoolean("check_for_updates");
-        do_backups = c.getBoolean("do_backups");
+        travel_time_factor = c.getDouble("travel_time_factor");
+        name = c.getString("file_name");
+        adr = c.getInt("area_discover_radius");
         return false;
+    }
+    
+    public String getFileName(){
+        return name;
+    }
+    
+    public int getAreaDiscoverRadius(){
+        return adr;
     }
 }

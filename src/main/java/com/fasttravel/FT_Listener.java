@@ -4,10 +4,9 @@
  * and open the template in the editor.
  */
 package com.fasttravel;
+
 import com.fasttravel.db.Area;
-import com.fasttravel.db.AreaDB;
-import com.fasttravel.db.PlayerDB;
-import com.fasttravel.db.User;
+import com.fasttravel.db.StorePoints;
 import java.util.List;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -16,8 +15,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.server.ServerEvent;
-
 
 /**
  *
@@ -25,7 +22,7 @@ import org.bukkit.event.server.ServerEvent;
  */
 public class FT_Listener implements Listener{
     
-    private static List<Area> areas;
+    private static List<Area> area = StorePoints.getInstance().getAllAreas();
     
     /**
      * Eventlistener for Playerjoining
@@ -34,6 +31,7 @@ public class FT_Listener implements Listener{
     @EventHandler
      public void onPlayerJoin(PlayerJoinEvent event)
      {
+         /*
          if(areas == null){
              areas = AreaDB.getInstance().get_all_areas();
          }
@@ -45,32 +43,41 @@ public class FT_Listener implements Listener{
                  evPlayer.sendMessage("There is a new Update available for FastTravel!");
              }
          }
+*/
      }
      
      @EventHandler
     public void onPlayerWalk(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         // Aviod too many checks
-        if(player.getGameMode().equals(GameMode.SPECTATOR) || player.getGameMode().equals(GameMode.CREATIVE)){
-            return;
-        }
+        //if(player.getGameMode().equals(GameMode.SPECTATOR) || player.getGameMode().equals(GameMode.CREATIVE)){
+        //    return;
+        //}
         // Only fire if the player changed position
         Location from = event.getFrom();
         Location to = event.getTo();
         if((from.getBlockX() == to.getBlockX()) && (from.getBlockY() == to.getBlockY()) && (from.getBlockZ() == to.getBlockZ())){
             return;
         }
-        User user = PlayerDB.getInstance().getUserByPlayer(player);
-        List<Area> area = user.areas_not_discovered;
-        if(!area.isEmpty()){
-            for(Area a:area){
-                if(a.player_in_area(player)){
-                    user.areas_discovered.add(a);
-                    user.areas_not_discovered.remove(a);
-                    player.sendMessage("You just discovered " + a.name + "!");
-                    player.sendMessage("A new fast travel point is now available.");
+        // Config file needs some fixes
+        int r = 10;
+        for(Area a:area){
+            int ax = a.getX();
+            int ay = a.getY();
+            int az = a.getZ();
+            if((ax-r < to.getBlockX()) && (ax+r > to.getBlockX()) &&
+                    (ay-r < to.getBlockY()) && (ay+r > to.getBlockY()) &&
+                    (az-r < to.getBlockZ()) && (az+r > to.getBlockZ())){
+                if(!a.getAllPlayer().contains(player.getUniqueId().toString())){
+                    player.sendMessage("You just discovered " + a.getName() + "!");
+                    a.addPlayer(player.getUniqueId().toString());
+                    StorePoints.getInstance().writeAll();
                 }
             }
         }
+    }
+    
+        public static void refreshAreas(){
+        area = StorePoints.getInstance().getAllAreas();
     }
 }

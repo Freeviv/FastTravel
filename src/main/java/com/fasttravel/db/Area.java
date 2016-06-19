@@ -5,82 +5,93 @@
  */
 package com.fasttravel.db;
 
-import org.bukkit.Location;
-import org.bukkit.entity.Player;
-import org.mongodb.morphia.annotations.Entity;
-import org.mongodb.morphia.annotations.Id;
-import org.mongodb.morphia.annotations.IndexOptions;
-import org.mongodb.morphia.annotations.Indexed;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author janschon
  */
-@Entity(value = "Area", noClassnameStored = true)
 public class Area {
-    @Id
-    public int id;
+    private String name;
+    private int x = Integer.MAX_VALUE;
+    private int y = Integer.MAX_VALUE;
+    private int z = Integer.MAX_VALUE;
+    private List<String> player;
+    private boolean playerInit = false;
     
-    // Area coords
-    public double x1;
-    public double y1;
-    public double z1;
-    public double x2;
-    public double y2;
-    public double z2;
     
-    @Indexed(options = @IndexOptions(unique = true))
-    public String name;
-    
-    public Location loc;
-    
-    // TODO add dimension
-    
-    /**
-     * Sets the dimension of the box-shaped area
-     */
-    public void set_area_dimensions(double x1, double y1, double z1, double x2, double y2, double z2){
-        this.x1 = x1;
-        this.y1 = y1;
-        this.z1 = z1;
-        this.x2 = x2;
-        this.y2 = y2;
-        this.z2 = z2;
+    public Area(){
+        player = new ArrayList<>();
     }
     
-    /**
-     * Helper methode to test weather a player is in a area or not
-     * @param p Player to be tested
-     * @return true if the player is in the area else false
-     */
-    public boolean player_in_area(Player p){
-        boolean f = true;
-        f = point_between_two(x1, x2, p.getLocation().getX());
-        if(f){
-            f = point_between_two(y1, y2, p.getLocation().getY());
-        }else {
-            return f;
+    public boolean setName(String name){
+        if(name == null || name.trim().isEmpty()){
+            return false;
         }
-        if (f){
-            f = point_between_two(z1, z2, p.getLocation().getZ());
-        } else {
-            return f;
+        this.name = name;
+        return true;
+    }
+    
+    public void setX(int x){
+        this.x = x;
+    }
+    
+    public void setY(int y){
+        this.y = y;
+    }
+    
+    public void setZ(int z){
+        this.z = z;
+    }
+    
+    public boolean addPlayer(String uuid){
+        if(uuid == null || uuid.trim().isEmpty()){
+            return false;
         }
-        return f;
+        if(player.contains(uuid)){
+            return true;
+        }
+        player.add(uuid);
+        return true;
     }
     
-    /**
-     * Helper Methode for the player_in_area-Methode. Tests if a point lays between
-     * two other (one dimensional points)
-     * @param p0 Point 1 
-     * @param p1 Point 2
-     * @param test Point to be tested
-     * @return true if the testpoint lays between the two other given points 
-     */
-    private boolean point_between_two(double p0,double p1, double test){
-        double t0 = p0-test;
-        double t1 = p1-test;
-        return ((t0*t1) < 0);
+    public boolean removePlayer(String uuid) {
+        if(uuid == null || uuid.trim().isEmpty()){
+            return false;
+        }
+        if(player.contains(uuid)){
+            player.remove(uuid);
+            return true;
+        }
+        return false;
     }
     
+    public String getName(){
+        return name;
+    }
+    
+    public int getX(){
+        return x;
+    }
+    
+    public int getY(){
+        return y;
+    }
+    
+    public int getZ(){
+        return z;
+    }
+    
+    public void playerInit(){
+        playerInit = true;
+    }
+    
+    public boolean isCorrect(){
+        return (x != Integer.MAX_VALUE) && (y != Integer.MAX_VALUE) && (z != Integer.MAX_VALUE) && (name != null) && playerInit;
+    }
+    
+    public List<String> getAllPlayer(){
+        return player;
+    }
 }
