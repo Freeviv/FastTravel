@@ -7,6 +7,7 @@ package com.fasttravel.commands;
  */
 
 
+import com.fasttravel.db.StorePoints;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -24,29 +25,19 @@ public class Com_create_location implements CommandExecutor {
         if(cs instanceof Player){
             player = (Player) cs;
         } else {
+            cs.sendMessage("This command should be executed by a player!");
             return false;
         }
-        if(strings.length != 7){
+        if(strings.length != 1){
             // TODO Better help msg
-            player.sendMessage("This command expects 7 arguments!");
+            player.sendMessage("This command expects 1 argument!");
             return false;
         }
-        int[] coords = new int[6];
-        try{
-            for(int i = 1; i < 7; i++){
-                coords[i - 1] = Integer.parseInt(strings[i]);
-            }
-        } catch (NumberFormatException e){
-            player.sendMessage("An error accured during processing this command (NumberFormatException)");
+        if(StorePoints.getInstance().getAllNames().contains(strings[0])){
+            player.sendMessage("The given name already exists!");
             return false;
         }
-        /*
-        Area a = new Area();
-        a.set_area_dimensions(coords[0], coords[1], coords[2], coords[3], coords[4], coords[5]);
-        a.name = strings[0];
-        AreaDB.getInstance().add_area_to_db(a);
-        PlayerDB.getInstance().add_area_to_all_player(a);
-        */
+        StorePoints.getInstance().addArea(strings[0], player.getLocation().getBlockX(),player.getLocation().getBlockY(),player.getLocation().getBlockZ());
         player.sendMessage("Succesfully created new area!");
         return true;
     }

@@ -16,7 +16,10 @@ package com.fasttravel.commands;
 
 
 
+import com.fasttravel.db.Area;
+import com.fasttravel.db.StorePoints;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -43,27 +46,29 @@ public class Com_fast_travel implements CommandExecutor{
         if(sender instanceof Player){
             player = (Player) sender;
         } else {
+            sender.sendMessage("This command can only be executed by a player!");
             return false;
         }
-        /*
-        if(arg1.length < 1){
-            player.sendMessage("You have to specify the area!");
+        if(arg1[0].trim().isEmpty()){
             return false;
         }
-        Area to_tp = AreaDB.getInstance().get_area_in_db(arg1[1]);
-        if(to_tp == null){
-            player.sendMessage("There is no area named " + arg1[1] + "!");
+        if(!StorePoints.getInstance().getAllNames().contains(arg1[0])){
             return false;
         }
-        if(PlayerDB.getInstance().getUserByPlayer(player).areas_discovered.contains(to_tp)){
-            player.teleport(to_tp.loc);
-        } else {
-            player.sendMessage("You have not discovered " + arg1[0] + " yet!");
+        Area a = StorePoints.getInstance().getAreaByName(arg1[0]);
+        if(a == null){
+            return false;
         }
+        if(!a.getAllPlayer().contains(player.getUniqueId().toString())){
+            player.sendMessage("You have not discovered this point yet!");
+            return false;
+        }
+        waitTillArrival(player);
+        player.teleport(new Location(player.getLocation().getWorld(), a.getX(), a.getY(), a.getZ()));
+        return true;
+    }
+    
+    private void waitTillArrival(Player p){
         
-        //player.teleport();
-        Bukkit.broadcastMessage(Bukkit.getWorlds().toString());
-*/
-        return false;
     }
 }

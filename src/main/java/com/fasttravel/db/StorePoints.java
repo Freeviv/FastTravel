@@ -5,10 +5,11 @@
  */
 package com.fasttravel.db;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,6 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Characters;
-import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
@@ -28,20 +28,37 @@ import javax.xml.stream.events.XMLEvent;
  *
  * @author janschon
  */
-public class AreaWorld {
+public class StorePoints {
 
     private final static String file_name = "xml_file.xml";
     private static List<Area> area = new ArrayList<>();
+    private static List<String> names = new ArrayList<>();
+    
+    private static StorePoints instance;
     
     private XMLInputFactory factory = XMLInputFactory.newFactory();
     private XMLEventReader reader = null;
     
-    public AreaWorld(){
+    private StorePoints(){
+        File tmp = new File(file_name);
+        if(!tmp.exists()){
+            writeAll();
+        }
         try {
             reader = factory.createXMLEventReader(new FileReader(file_name));
+            readFile();
         } catch (XMLStreamException | FileNotFoundException ex) {
-            Logger.getLogger(AreaWorld.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StorePoints.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("[FastTravel] This error can may occur if this plugin is started for the first time or there are no waypoints.");
+            System.out.println("[FastTravel] If this happens even with areas added, please open an issue on GitHub!");
         }
+    }
+    
+    public static StorePoints getInstance(){
+        if(instance == null){
+            instance = new StorePoints();
+        }
+        return instance;
     }
     
     private void readFile() throws XMLStreamException{
@@ -56,6 +73,9 @@ public class AreaWorld {
             if(needsNewArea){
                 a = new Area();
                 needsNewArea = false;
+            }
+            if(a == null){
+                throw new NullPointerException("Area was null. This should not happen!");
             }
             XMLEvent event = reader.nextEvent();
             switch(event.getEventType()){
@@ -78,26 +98,22 @@ public class AreaWorld {
                     Characters chars = event.asCharacters();
                     if(name) {
                         a.setName(chars.getData());
-                        //System.out.println("Name: " + chars.getData());
+                        names.add(chars.getData());
                         name = false;
                     }
                     if(x_pos) {
                         a.setX(Integer.parseInt(chars.getData()));
-                        //System.out.println("x_pos: " + chars.getData());
                         x_pos = false;
                     }
                     if(y_pos) {
                         a.setY(Integer.parseInt(chars.getData()));
-                        //System.out.println("y_pos: " + chars.getData());
                         y_pos = false;
                     }
                     if(z_pos) {
                         a.setZ(Integer.parseInt(chars.getData()));
-                        //System.out.println("z_pos: " + chars.getData());
                         z_pos = false;
                     }
                     if(player) {
-                        //System.out.println("Player: " + chars.getData());
                         String[] players = chars.getData().split(" ");
                         for(String s:players){
                             a.addPlayer(s);
@@ -107,7 +123,6 @@ public class AreaWorld {
                     }
                     break;
             }
-            // No need for null pointer check
             if(a.isCorrect()){
                 area.add(a);
                 needsNewArea = true;
@@ -115,38 +130,86 @@ public class AreaWorld {
         }
     }
     
-    public void addArea(String name, int x,int y, int z){
-    
+    public boolean addArea(String name, int x,int y, int z){
+        if(name == null || name.trim().isEmpty()){
+            return false;
+        }
+        Area a = new Area();
+        a.setName(name);
+        a.setX(x);
+        a.setY(y);
+        a.setZ(z);
+        area.add(a);
+        writeAll();
+        return true;
     }
     
     public void writeAll() {
         String start = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n" +
                         "<class>";
-        String end = "<\\class>";
+        String end = "</class>";
+        File f = new File("out_tmp.xml");
         try {
-            File f = new File("out_tmp.xml");
             if(!f.exists()){
                 f.createNewFile();
             }
-            FileOutputStream out = new FileOutputStream(f);
+            FileWriter fw = new FileWriter(f);
+            try (BufferedWriter writer = new BufferedWriter(fw)) {
+                writer.append(start);
+                writer.newLine();
+                for(Area a:area){
+                    writer.append("  <area>");
+                    writer.newLine();
+                    writer.append("      <name>" + a.getName() + "</name>");
+                    writer.newLine();
+                    writer.append("      <x_pos>" + a.getX() + "</x_pos>");
+                    writer.newLine();
+                    writer.append("      <y_pos>" + a.getY() + "</y_pos>");
+                    writer.newLine();
+                    writer.append("      <z_pos>" + a.getZ() + "</z_pos>");
+                    writer.newLine();
+                    String all_player = new String();
+                    for(String s:a.getAllPlayer()){
+                        all_player += s + " ";
+                    }
+                    all_player = all_player.trim();
+                    writer.append("      <players>" + all_player + "</players>");
+                    writer.newLine();
+                    writer.append("  </area>");
+                    writer.newLine();
+                    writer.flush();
+                }
+                writer.append(end);
+                writer.flush();
+                fw.close();
+            }
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(AreaWorld.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StorePoints.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(AreaWorld.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(StorePoints.class.getName()).log(Level.SEVERE, null, ex);
         }
+        File old_file = new File(file_name);
+        if(old_file.exists()){
+            old_file.delete();
+        }
+        f.renameTo(old_file);
     }
     
+    public List<String> getAllNames(){
+        return names;
+    }
     
-    public static void main(String[] args){
-        AreaWorld p = new AreaWorld();
-        try {
-            p.readFile();
-        } catch (XMLStreamException ex) {
-            Logger.getLogger(AreaWorld.class.getName()).log(Level.SEVERE, null, ex);
+    /**
+     * Returns the area with the given name or null
+     * @param name Name of the area
+     * @return the area or null if this area does not exists
+     */
+    public Area getAreaByName(String name){
+        for(Area a:area){
+            if(a.getName().equals(name)){
+                return a;
+            }
         }
-        System.out.println(area.size());
-        for(int i = 0; i < area.size(); i++){
-            System.out.println(area.get(i).getAllPlayer().size());
-        }
+        return null;
     }
 }
