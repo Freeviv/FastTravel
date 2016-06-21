@@ -1,5 +1,3 @@
-package com.fasttravel.commands;
-
 /*
  * Copyright (C) 2016  Jan Schoneberg
  * This program is free software: you can redistribute it and/or modify it under the terms of
@@ -13,23 +11,16 @@ package com.fasttravel.commands;
  * You should have received a copy of the GNU General Public License along with this program.
  * If not, see <http://www.gnu.org/licenses/>.
  */
+package com.fasttravel.commands;
 
-
-
-import com.fasttravel.FastTravel;
 import com.fasttravel.db.Area;
 import com.fasttravel.db.StorePoints;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.plugin.Plugin;
 
 import org.bukkit.potion.PotionEffect;
