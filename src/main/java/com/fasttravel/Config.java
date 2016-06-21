@@ -20,7 +20,7 @@ import org.bukkit.configuration.file.FileConfiguration;
  * @author janschon
  */
 public class Config {
-    private double travel_time_factor;
+    public static double travel_time_factor;
     private String name;
     private int adr;
     

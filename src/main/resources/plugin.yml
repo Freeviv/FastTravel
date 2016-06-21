@@ -1,4 +1,4 @@
-name: FastTravel-1.0
+name: FastTravel-0.1
 main: com.fasttravel.FastTravel
 version: 1.0
 commands:

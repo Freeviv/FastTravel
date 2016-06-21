@@ -17,8 +17,6 @@ package com.fasttravel;
 import com.fasttravel.commands.Com_fast_travel;
 import com.fasttravel.commands.Com_create_location;
 import com.fasttravel.db.StorePoints;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
 

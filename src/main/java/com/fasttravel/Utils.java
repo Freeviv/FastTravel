@@ -16,6 +16,7 @@ package com.fasttravel;
 import java.util.Random;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -122,5 +123,9 @@ public class Utils {
             c = Color.YELLOW;
         }
         return c;
+    }
+    
+    public static double getDistance(Location loc0, Location loc1){
+        return Math.sqrt(Math.pow(Math.sqrt(Math.pow(loc0.getX() - loc1.getX(), 2) + Math.pow(loc0.getY() - loc1.getY(), 2)), 2) + Math.pow(loc0.getZ() - loc1.getZ(), 2));
     }
 }

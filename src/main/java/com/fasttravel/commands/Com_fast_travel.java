@@ -13,6 +13,8 @@
  */
 package com.fasttravel.commands;
 
+import com.fasttravel.Config;
+import com.fasttravel.Utils;
 import com.fasttravel.db.Area;
 import com.fasttravel.db.StorePoints;
 import java.util.ArrayList;
@@ -41,6 +43,8 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @author janschon
  */
 public class Com_fast_travel implements CommandExecutor{
+    
+    public static final double BLOCKS_PER_SECOND = 5;
     
     private static Plugin pl;
     
@@ -89,8 +93,15 @@ public class Com_fast_travel implements CommandExecutor{
     }
     
     public static void teleportPlayer(Player p, Area a){
-        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, -100));
         GameMode g = p.getGameMode();
+        
+        Location loc0 = new Location(p.getWorld(), a.getX(), a.getY(), a.getZ());
+        double dis = Utils.getDistance(loc0, p.getLocation());
+        double travel_time = Config.travel_time_factor * (dis/BLOCKS_PER_SECOND);
+        int travel_time_in_sec = (int)Math.ceil(travel_time);
+        p.sendMessage("You will arrive " + a.getName() + " in " + String.valueOf(travel_time_in_sec) + " seconds.");
+        
+        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20*travel_time_in_sec, -100));
         p.setGameMode(GameMode.SPECTATOR);
         p.teleport(new Location(p.getWorld(), p.getLocation().getBlockX(), 10000, p.getLocation().getBlockX()));
         new BukkitRunnable() {
@@ -99,16 +110,15 @@ public class Com_fast_travel implements CommandExecutor{
                 p.teleport(new Location(p.getLocation().getWorld(), a.getX(), a.getY(), a.getZ()));
                 p.setGameMode(g);
             }
-        }.runTaskLater(pl, 20*10);
+        }.runTaskLater(pl, 20*travel_time_in_sec);
         p.playSound(p.getLocation(), Sound.BLOCK_GRAVEL_STEP, (float) 0.3, 1);
     }
     
     private void showPlayerAllPoints(Player p){
          List<Area> a = StorePoints.getInstance().getAllAreas();
-         int inv_cols = (int) Math.ceil((double)a.size()/9);
+         int inv_cols = (int) Math.ceil((double)a.size()/9); 
          ArrayList<String> names = new ArrayList<>();
          names.add("Server");
-         System.out.println("" + inv_cols);
          Inventory inv = Bukkit.createInventory(null, inv_cols * 9,"FastTravel Points");
          for(Area area:a){
             ItemStack b = new ItemStack(Material.MAP);
