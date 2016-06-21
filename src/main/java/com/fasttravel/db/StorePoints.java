@@ -1,7 +1,15 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2016  Jan Schoneberg
+ * This program is free software: you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation, either version
+ * 3 of the License, or (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along with this program.
+ * If not, see <http://www.gnu.org/licenses/>.
  */
 package com.fasttravel.db;
 
@@ -51,8 +59,8 @@ public class StorePoints {
             readFile();
         } catch (XMLStreamException | FileNotFoundException ex) {
             Logger.getLogger(StorePoints.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("[FastTravel] This error may occur if this plugin is started for the first time or there are no waypoints.");
-            System.out.println("[FastTravel] Please validate the XML-file bevor opening an issue!");
+            System.out.println("[FastTravel] This error can may occur if this plugin is started for the first time or there are no waypoints.");
+            System.out.println("[FastTravel] If this happens even with areas added, please open an issue on GitHub!");
         }
     }
     
