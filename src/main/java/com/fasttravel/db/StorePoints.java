@@ -146,6 +146,7 @@ public class StorePoints {
         }
         Area a = new Area();
         a.setName(name);
+        names.add(name);
         a.setX(x);
         a.setY(y);
         a.setZ(z);

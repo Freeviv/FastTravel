@@ -43,7 +43,7 @@ public class Com_create_location implements CommandExecutor {
             player.sendMessage("The given name already exists!");
             return false;
         }
-        StorePoints.getInstance().addArea(strings[0], player.getLocation().getBlockX(),player.getLocation().getBlockY(),player.getLocation().getBlockZ());
+        StorePoints.getInstance().addArea(strings[0].trim(), player.getLocation().getBlockX(),player.getLocation().getBlockY(),player.getLocation().getBlockZ());
         player.sendMessage("Succesfully created new area!");
         return true;
     }

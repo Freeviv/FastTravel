@@ -13,14 +13,17 @@
  */
 package com.fasttravel;
 
+import com.fasttravel.commands.Com_fast_travel;
 import com.fasttravel.db.Area;
 import com.fasttravel.db.StorePoints;
 import java.util.List;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
@@ -39,19 +42,6 @@ public class FT_Listener implements Listener{
     @EventHandler
      public void onPlayerJoin(PlayerJoinEvent event)
      {
-         /*
-         if(areas == null){
-             areas = AreaDB.getInstance().get_all_areas();
-         }
-         Player evPlayer = event.getPlayer();
-         // This will ensure that the player exists in the DB
-         User a = PlayerDB.getInstance().getUserByPlayer(evPlayer);
-         if(evPlayer.isOp()){
-             if(Utils.check_for_update()){
-                 evPlayer.sendMessage("There is a new Update available for FastTravel!");
-             }
-         }
-*/
      }
      
      @EventHandler
@@ -86,7 +76,26 @@ public class FT_Listener implements Listener{
         }
     }
     
-        public static void refreshAreas(){
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event){
+        if(!event.getInventory().getName().equals("FastTravel Points")){
+            return;
+        }
+        String areaName = event.getCurrentItem().getItemMeta().getDisplayName();
+        Area a = StorePoints.getInstance().getAreaByName(ChatColor.stripColor(areaName));
+        Player p = (Player) event.getInventory().getViewers().get(0);
+        if(a == null){
+            System.out.println("Area null!");
+            return;
+        }
+        if(!a.getAllPlayer().contains(p.getUniqueId().toString())){
+            p.sendMessage("You have not discovered this area yet!");
+            return;
+        }
+        Com_fast_travel.teleportPlayer(p, a);
+    }
+    
+    public static void refreshAreas(){
         area = StorePoints.getInstance().getAllAreas();
     }
 }

@@ -18,6 +18,8 @@ import com.fasttravel.db.StorePoints;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -27,6 +29,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 
 import org.bukkit.potion.PotionEffect;
@@ -39,7 +42,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class Com_fast_travel implements CommandExecutor{
     
-    Plugin pl;
+    private static Plugin pl;
     
     public void setPlugin(Plugin p){
         pl = p;
@@ -79,35 +82,48 @@ public class Com_fast_travel implements CommandExecutor{
             player.sendMessage("You have not discovered this point yet!");
             return false;
         }
-        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, -100));
-        player.teleport(new Location(player.getWorld(), player.getLocation().getBlockX(), 10000, player.getLocation().getBlockX()));
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                player.setFallDistance(0);
-                player.teleport(new Location(player.getLocation().getWorld(), a.getX(), a.getY(), a.getZ()));
-            }
-        }.runTaskLater(pl, 20*10);
-        waitTillArrival(player);
-        player.playSound(player.getLocation(), Sound.BLOCK_GRAVEL_STEP, (float) 0.3, 1);
+        teleportPlayer(player, a);
+        
         
         return true;
     }
     
-    private void waitTillArrival(Player p){
-                // Normal speed?
-        p.setWalkSpeed((float) 0.225);
+    public static void teleportPlayer(Player p, Area a){
+        p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 200, -100));
+        GameMode g = p.getGameMode();
+        p.setGameMode(GameMode.SPECTATOR);
+        p.teleport(new Location(p.getWorld(), p.getLocation().getBlockX(), 10000, p.getLocation().getBlockX()));
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                p.teleport(new Location(p.getLocation().getWorld(), a.getX(), a.getY(), a.getZ()));
+                p.setGameMode(g);
+            }
+        }.runTaskLater(pl, 20*10);
+        p.playSound(p.getLocation(), Sound.BLOCK_GRAVEL_STEP, (float) 0.3, 1);
     }
     
     private void showPlayerAllPoints(Player p){
          List<Area> a = StorePoints.getInstance().getAllAreas();
-         Inventory inv = Bukkit.createInventory(null, 9);
-         ItemStack b = new ItemStack(Material.WRITTEN_BOOK);
-         //b.getItemMeta().setDisplayName("Test");
-         List<String> aa = new ArrayList<String>();
-         aa.add("Test");
-         b.getItemMeta().setLore(aa);
-         inv.addItem(b);
+         int inv_cols = (int) Math.ceil((double)a.size()/9);
+         ArrayList<String> names = new ArrayList<>();
+         names.add("Server");
+         System.out.println("" + inv_cols);
+         Inventory inv = Bukkit.createInventory(null, inv_cols * 9,"FastTravel Points");
+         for(Area area:a){
+            ItemStack b = new ItemStack(Material.MAP);
+            ItemMeta meta = b.getItemMeta();
+            if(area.getAllPlayer().contains(p.getUniqueId().toString())){
+                meta.setDisplayName(ChatColor.GREEN + area.getName());
+            }else {
+                meta.setDisplayName(ChatColor.RED + area.getName());
+            }
+            meta.setLore(names);
+            b.setItemMeta(meta);
+            inv.addItem(b);
+         }
+         //inv.
+         
          p.openInventory(inv);
      }
 }
