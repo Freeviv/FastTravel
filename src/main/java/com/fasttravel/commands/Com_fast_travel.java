@@ -15,12 +15,18 @@ package com.fasttravel.commands;
 
 import com.fasttravel.db.Area;
 import com.fasttravel.db.StorePoints;
+import java.util.ArrayList;
+import java.util.List;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import org.bukkit.potion.PotionEffect;
@@ -58,8 +64,9 @@ public class Com_fast_travel implements CommandExecutor{
             sender.sendMessage("This command can only be executed by a player!");
             return false;
         }
-        if(arg1[0].trim().isEmpty()){
-            return false;
+        if(arg1.length < 1){
+             showPlayerAllPoints(player);
+             return true;
         }
         if(!StorePoints.getInstance().getAllNames().contains(arg1[0])){
             return false;
@@ -91,4 +98,16 @@ public class Com_fast_travel implements CommandExecutor{
                 // Normal speed?
         p.setWalkSpeed((float) 0.225);
     }
+    
+    private void showPlayerAllPoints(Player p){
+         List<Area> a = StorePoints.getInstance().getAllAreas();
+         Inventory inv = Bukkit.createInventory(null, 9);
+         ItemStack b = new ItemStack(Material.WRITTEN_BOOK);
+         //b.getItemMeta().setDisplayName("Test");
+         List<String> aa = new ArrayList<String>();
+         aa.add("Test");
+         b.getItemMeta().setLore(aa);
+         inv.addItem(b);
+         p.openInventory(inv);
+     }
 }
