@@ -20,18 +20,27 @@ import com.fasttravel.FastTravel;
 import com.fasttravel.db.Area;
 import com.fasttravel.db.StorePoints;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
-
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -67,8 +76,9 @@ public class Com_fast_travel implements CommandExecutor{
             sender.sendMessage("This command can only be executed by a player!");
             return false;
         }
-        if(arg1[0].trim().isEmpty()){
-            return false;
+        if(arg1.length < 1){
+            showPlayerAllPoints(player);
+            return true;
         }
         if(!StorePoints.getInstance().getAllNames().contains(arg1[0])){
             return false;
@@ -99,5 +109,17 @@ public class Com_fast_travel implements CommandExecutor{
     private void waitTillArrival(Player p){
                 // Normal speed?
         p.setWalkSpeed((float) 0.225);
+    }
+    
+    private void showPlayerAllPoints(Player p){
+        List<Area> a = StorePoints.getInstance().getAllAreas();
+        Inventory inv = Bukkit.createInventory(null, 9);
+        ItemStack b = new ItemStack(Material.WRITTEN_BOOK);
+        //b.getItemMeta().setDisplayName("Test");
+        List<String> aa = new ArrayList<String>();
+        aa.add("Test");
+        b.getItemMeta().setLore(aa);
+        inv.addItem(b);
+        p.openInventory(inv);
     }
 }

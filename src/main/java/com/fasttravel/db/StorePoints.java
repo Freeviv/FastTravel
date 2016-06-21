@@ -51,8 +51,8 @@ public class StorePoints {
             readFile();
         } catch (XMLStreamException | FileNotFoundException ex) {
             Logger.getLogger(StorePoints.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("[FastTravel] This error can may occur if this plugin is started for the first time or there are no waypoints.");
-            System.out.println("[FastTravel] If this happens even with areas added, please open an issue on GitHub!");
+            System.out.println("[FastTravel] This error may occur if this plugin is started for the first time or there are no waypoints.");
+            System.out.println("[FastTravel] Please validate the XML-file bevor opening an issue!");
         }
     }
     
