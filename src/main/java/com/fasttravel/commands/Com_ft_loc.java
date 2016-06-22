@@ -23,7 +23,7 @@ import org.bukkit.entity.Player;
  *
  * @author janschon
  */
-public class Com_create_location implements CommandExecutor {
+public class Com_ft_loc implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender cs, Command cmnd, String string, String[] strings) {
@@ -34,18 +34,34 @@ public class Com_create_location implements CommandExecutor {
             cs.sendMessage("This command should be executed by a player!");
             return false;
         }
-        if(strings.length != 1){
+        if(strings.length != 2){
             // TODO Better help msg
-            player.sendMessage("This command expects 1 argument!");
+            //player.sendMessage("This command expects 2 argument!");
             return false;
         }
-        if(StorePoints.getInstance().getAllNames().contains(strings[0])){
-            player.sendMessage("The given name already exists!");
+        if(strings[0].equals("add")){
+            if(StorePoints.getInstance().getAllNames().contains(strings[0].trim())){
+                player.sendMessage("The given name already exists!");
+                return false;
+            }
+            StorePoints.getInstance().addArea(strings[1].trim(), player.getLocation().getBlockX(),player.getLocation().getBlockY(),player.getLocation().getBlockZ());
+            player.sendMessage("Succesfully created new area!");
+            return true;
+        } else if(strings[0].equals("delete")){
+            if(!StorePoints.getInstance().getAllNames().contains(strings[1].trim())){
+                player.sendMessage("The given name does not exists! Nothing todo.");
+                player.sendMessage(StorePoints.getInstance().getAllNames().toString());
+                return true;
+            }
+            if(StorePoints.getInstance().removeAreaByName(strings[1].trim())){
+                player.sendMessage("Succesfully deleted " + strings[1].trim() + "!");
+            } else {
+                player.sendMessage("Well, thats odd. Could not find the given area!\n(This should not happen)");
+            }
+            return true;
+        } else {
             return false;
         }
-        StorePoints.getInstance().addArea(strings[0].trim(), player.getLocation().getBlockX(),player.getLocation().getBlockY(),player.getLocation().getBlockZ());
-        player.sendMessage("Succesfully created new area!");
-        return true;
     }
     
 }

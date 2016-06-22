@@ -39,7 +39,7 @@ import javax.xml.stream.events.XMLEvent;
 public class StorePoints {
 
     // Maybe a bett path
-    private final static String path = "plugins/FastTravel-1.0/";
+    private final static String path = "plugins/FastTravel-0.2/";
     private final static String file_name = "areas.xml";
     private static List<Area> area = new ArrayList<>();
     private static List<String> names = new ArrayList<>();
@@ -219,6 +219,20 @@ public class StorePoints {
             }
         }
         return null;
+    }
+    
+    public boolean removeArea(Area a){
+        if(!area.contains(a)){
+            return false;
+        }
+        boolean b = area.remove(a);
+        names.remove(a.getName());
+        writeAll();
+        return b;
+    }
+    
+    public boolean removeAreaByName(String name){
+        return removeArea(getAreaByName(name));
     }
     
     public List<Area> getAllAreas(){

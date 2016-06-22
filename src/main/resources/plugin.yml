@@ -1,12 +1,12 @@
-name: FastTravel-0.1
+name: FastTravel-0.2
 main: com.fasttravel.FastTravel
-version: 1.0
+version: 0.2
 commands:
   ft:
     description: Teleports you to the specified and discovered place
     usage: /ft <FT-Location>
-  create_location:
+  ft_loc:
     description: Create a dicoverable area
-    usage: /create_location <name>
+    usage: /ft_loc {add|delete} <name>
       
     

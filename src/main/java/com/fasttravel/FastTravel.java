@@ -15,7 +15,7 @@
 package com.fasttravel;
 
 import com.fasttravel.commands.Com_fast_travel;
-import com.fasttravel.commands.Com_create_location;
+import com.fasttravel.commands.Com_ft_loc;
 import com.fasttravel.db.StorePoints;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -44,7 +44,7 @@ public class FastTravel extends JavaPlugin {
         Com_fast_travel c = new Com_fast_travel();
         c.setPlugin(this);
         this.getCommand("ft").setExecutor(c);
-        this.getCommand("create_location").setExecutor(new Com_create_location());
+        this.getCommand("ft_loc").setExecutor(new Com_ft_loc());
         
         getServer().getPluginManager().registerEvents(new FT_Listener(), this);
     }

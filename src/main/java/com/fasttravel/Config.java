@@ -55,7 +55,7 @@ public class Config {
      */
     private boolean init_config(FileConfiguration c){
         c.addDefault("init", true);
-        c.addDefault("travel_time_factor", (double)0.5);
+        c.addDefault("travel_time_factor", (double)0.05);
         c.addDefault("file_name", "areas");
         c.addDefault("area_discover_radius", (int)10);
         return true;
