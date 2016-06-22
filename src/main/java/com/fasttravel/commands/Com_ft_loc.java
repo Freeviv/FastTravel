@@ -20,8 +20,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- *
- * @author janschon
+ * CommandExecutor for the /ft_loc command
+ * @author Jan Schoneberg(Freeviv)
  */
 public class Com_ft_loc implements CommandExecutor {
 

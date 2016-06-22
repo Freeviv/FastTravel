@@ -18,21 +18,51 @@ import java.util.List;
 
 /**
  *
- * @author janschon
+ * @author Jan Schoneberg(Freeviv)
  */
 public class Area {
+    /**
+     * Name of the area. Will be used for all fining methodes
+     */
     private String name;
+    
+    /**
+     * x value of the spawning point.
+     */
     private int x = Integer.MAX_VALUE;
+    
+    /**
+     * y value of the spawning point.
+     */
     private int y = Integer.MAX_VALUE;
+    
+    /**
+     * z value of the spawning point.
+     */
     private int z = Integer.MAX_VALUE;
+    
+    /**
+     * List of players who have already discovered the area.
+     */
     private List<String> player;
+    
+    /**
+     * Helper attribute for object serilization.
+     */
     private boolean playerInit = false;
     
-    
+    /**
+     * Contructor
+     */
     public Area(){
         player = new ArrayList<>();
     }
     
+    /**
+     * Setter for the area name.
+     * @param name Name to be given to the area
+     * @return true, if the name was successfully given else false
+     */
     public boolean setName(String name){
         if(name == null || name.trim().isEmpty()){
             return false;
@@ -41,18 +71,35 @@ public class Area {
         return true;
     }
     
+    /**
+     * Setter for the x value
+     * @param x 
+     */
     public void setX(int x){
         this.x = x;
     }
     
+    /**
+     * Setter for the y value
+     * @param y 
+     */
     public void setY(int y){
         this.y = y;
     }
     
+    /**
+     * Setter for the z value
+     * @param z 
+     */
     public void setZ(int z){
         this.z = z;
     }
     
+    /**
+     * Adds a player to the area
+     * @param uuid the uuid of the player
+     * @return true if the player was added else false
+     */
     public boolean addPlayer(String uuid){
         if(uuid == null || uuid.trim().isEmpty()){
             return false;
@@ -64,6 +111,11 @@ public class Area {
         return true;
     }
     
+    /**
+     * Removes a player from the area
+     * @param uuid the uuid of the player
+     * @return true if player was remove else false
+     */
     public boolean removePlayer(String uuid) {
         if(uuid == null || uuid.trim().isEmpty()){
             return false;
@@ -79,26 +131,49 @@ public class Area {
         return name;
     }
     
+    /**
+     * Getter for the x value of this area.
+     * @return x
+     */
     public int getX(){
         return x;
     }
     
+    /**
+     * Getter for the y value of this area.
+     * @return y
+     */
     public int getY(){
         return y;
     }
     
+    /**
+     * Getter for the z value of this area.
+     * @return z
+     */
     public int getZ(){
         return z;
     }
     
+    /**
+     * Sets playerinit to true
+     */
     public void playerInit(){
         playerInit = true;
     }
     
+    /**
+     * Function to validate the area instance
+     * @return True if all position values are changed and playerinit is true
+     */
     public boolean isCorrect(){
         return (x != Integer.MAX_VALUE) && (y != Integer.MAX_VALUE) && (z != Integer.MAX_VALUE) && (name != null) && playerInit;
     }
     
+    /**
+     * Getter for all Players who have already discovered the area.
+     * @return all Players who have already discovered the area.
+     */
     public List<String> getAllPlayer(){
         return player;
     }

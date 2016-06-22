@@ -28,8 +28,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 /**
- *
- * @author janschon
+ * EventListener
+ * @author Jan Schoneberg(Freeviv)
  */
 public class FT_Listener implements Listener{
     
@@ -44,7 +44,11 @@ public class FT_Listener implements Listener{
      {
      }
      
-     @EventHandler
+     /**
+      * Eventlistener for player movement. Is required to register area discoveries.
+      * @param event 
+      */
+    @EventHandler
     public void onPlayerWalk(PlayerMoveEvent event) {
         Player player = event.getPlayer();
         // Aviod too many checks
@@ -76,6 +80,10 @@ public class FT_Listener implements Listener{
         }
     }
     
+    /**
+     * Inventory click listener. Needed for the inventory gui
+     * @param event 
+     */
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event){
         if(!event.getInventory().getName().equals("FastTravel Points")){
@@ -93,9 +101,5 @@ public class FT_Listener implements Listener{
             return;
         }
         Com_fast_travel.teleportPlayer(p, a);
-    }
-    
-    public static void refreshAreas(){
-        area = StorePoints.getInstance().getAllAreas();
     }
 }

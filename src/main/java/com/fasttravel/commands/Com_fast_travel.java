@@ -39,8 +39,8 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
- *
- * @author janschon
+ * CommandExecutor for the /ft command
+ * @author Jan Schoneberg(Freeviv)
  */
 public class Com_fast_travel implements CommandExecutor{
     

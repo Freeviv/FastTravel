@@ -22,7 +22,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Mainclass of this Plugin
- * @author janschon
+ * @author Jan Schoneberg(Freeviv)
  */
 public class FastTravel extends JavaPlugin {
 

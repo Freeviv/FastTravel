@@ -24,7 +24,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 
 /**
  * Utility-Class
- * @author janschon
+ * @author Jan Schoneberg(Freeviv)
  */
 public class Utils {
     
@@ -36,7 +36,10 @@ public class Utils {
         return false;
     }
     
-    // Funktions from Luke Parker
+    /**
+     * Fires a random rocket at the position of the Player p
+     * @param p Player where the rocket should spawn
+     */
     public static void fireRocket(Player p){
         Firework fw = (Firework)p.getWorld().spawnEntity(p.getLocation(), EntityType.FIREWORK);
         FireworkMeta fwm = fw.getFireworkMeta();
@@ -69,6 +72,12 @@ public class Utils {
         fw.setFireworkMeta(fwm);
     }
     
+    /**
+     * Helper methode for the fireRocket-Methode to get different
+     * colors by an random int.
+     * @param i
+     * @return Color corresponding to given int
+     */
     private static Color getColor(int i) {
         Color c = null;
         if (i == 1) {
@@ -125,6 +134,12 @@ public class Utils {
         return c;
     }
     
+    /**
+     * Calculates the distance between the two given Locations. (X,Y and Z Axis)
+     * @param loc0
+     * @param loc1
+     * @return distance between loc0 and loc1
+     */
     public static double getDistance(Location loc0, Location loc1){
         return Math.sqrt(Math.pow(Math.sqrt(Math.pow(loc0.getX() - loc1.getX(), 2) + Math.pow(loc0.getY() - loc1.getY(), 2)), 2) + Math.pow(loc0.getZ() - loc1.getZ(), 2));
     }

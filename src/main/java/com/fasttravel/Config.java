@@ -17,11 +17,22 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 /**
  *
- * @author janschon
+ * @author Jan Schoneberg(Freeviv)
  */
 public class Config {
+    /**
+     * The time factor for fast travalling
+     */
     public static double travel_time_factor;
+    
+    /**
+     * The name for the xml file (currently unused!).
+     */
     private String name;
+    
+    /**
+     * area discover radius. Name says everything.
+     */
     private int adr;
     
     private static Config instance;
@@ -40,13 +51,17 @@ public class Config {
         load_config(conf);
     }
     
+    /**
+     * Getter class for singleton
+     * @param c
+     * @return 
+     */
     public static Config getInstance(FileConfiguration c){
         if(instance == null && c != null){
             instance = new Config(c);
         }
         return instance;
     }
-
     
     /**
      * Initialize the FileConfiguration

@@ -13,14 +13,11 @@
  */
 package com.fasttravel.db;
 
-
 import java.util.List;
-
-
 
 /**
  *
- * @author janschon
+ * @author Jan Schoneberg(Freeviv)
  */
 public class StorePoints {
 
