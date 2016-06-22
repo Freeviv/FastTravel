@@ -13,23 +13,9 @@
  */
 package com.fasttravel.db;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.Characters;
-import javax.xml.stream.events.StartElement;
-import javax.xml.stream.events.XMLEvent;
+
 
 
 /**
@@ -38,30 +24,13 @@ import javax.xml.stream.events.XMLEvent;
  */
 public class StorePoints {
 
-    // Maybe a bett path
-    private final static String path = "plugins/FastTravel-0.2/";
-    private final static String file_name = "areas.xml";
-    private static List<Area> area = new ArrayList<>();
-    private static List<String> names = new ArrayList<>();
-    
     private static StorePoints instance;
-    
-    private XMLInputFactory factory = XMLInputFactory.newFactory();
-    private XMLEventReader reader = null;
+    private final XMLWriter writer;
     
     private StorePoints(){
-        File tmp = new File(path + file_name);
-        if(!tmp.exists()){
-            writeAll();
-        }
-        try {
-            reader = factory.createXMLEventReader(new FileReader(path + file_name));
-            readFile();
-        } catch (XMLStreamException | FileNotFoundException ex) {
-            Logger.getLogger(StorePoints.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("[FastTravel] This error may occur if this plugin is started for the first time or there are no waypoints.");
-            System.out.println("[FastTravel] Please validate the XML-file bevor opening an issue!");
-        }
+        writer = new XMLWriter();
+        Thread t = new Thread(writer);
+        t.start();
     }
     
     public static StorePoints getInstance(){
@@ -71,140 +40,23 @@ public class StorePoints {
         return instance;
     }
     
-    private void readFile() throws XMLStreamException{
-        boolean name = false;
-        boolean x_pos = false;
-        boolean y_pos = false;
-        boolean z_pos = false;
-        boolean player = false;
-        boolean needsNewArea = true;
-        Area a = null;
-        while(reader.hasNext()){
-            if(needsNewArea){
-                a = new Area();
-                needsNewArea = false;
-            }
-            if(a == null){
-                throw new NullPointerException("Area was null. This should not happen!");
-            }
-            XMLEvent event = reader.nextEvent();
-            switch(event.getEventType()){
-                case XMLStreamConstants.START_ELEMENT:
-                    StartElement start = event.asStartElement();
-                    String seName = start.getName().toString();
-                    if(seName.equalsIgnoreCase("name")){
-                        name = true;
-                    } else if(seName.equalsIgnoreCase("x_pos")){
-                        x_pos = true;
-                    } else if(seName.equalsIgnoreCase("y_pos")){
-                        y_pos = true;
-                    } else if(seName.equalsIgnoreCase("z_pos")){
-                        z_pos = true;
-                    } else if(seName.equalsIgnoreCase("players")){
-                        player = true;
-                    }
-                    break;
-                case XMLStreamConstants.CHARACTERS:
-                    Characters chars = event.asCharacters();
-                    if(name) {
-                        a.setName(chars.getData());
-                        names.add(chars.getData());
-                        name = false;
-                    }
-                    if(x_pos) {
-                        a.setX(Integer.parseInt(chars.getData()));
-                        x_pos = false;
-                    }
-                    if(y_pos) {
-                        a.setY(Integer.parseInt(chars.getData()));
-                        y_pos = false;
-                    }
-                    if(z_pos) {
-                        a.setZ(Integer.parseInt(chars.getData()));
-                        z_pos = false;
-                    }
-                    if(player) {
-                        String[] players = chars.getData().split(" ");
-                        for(String s:players){
-                            a.addPlayer(s);
-                        }
-                        a.playerInit();
-                        player = false;
-                    }
-                    break;
-            }
-            if(a.isCorrect()){
-                area.add(a);
-                needsNewArea = true;
-            }
-        }
-    }
-    
     public boolean addArea(String name, int x,int y, int z){
         if(name == null || name.trim().isEmpty()){
             return false;
         }
         Area a = new Area();
         a.setName(name);
-        names.add(name);
+        writer.addName(name);
         a.setX(x);
         a.setY(y);
         a.setZ(z);
-        area.add(a);
-        writeAll();
+        writer.addArea(a);
+        writer.writeAll();
         return true;
     }
     
-    public void writeAll() {
-        String start = "<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n" +
-                        "<class>";
-        String end = "</class>";
-        File f = new File(path + "out_tmp.xml");
-        try {
-            if(!f.exists()){
-                f.createNewFile();
-            }
-            FileWriter fw = new FileWriter(f);
-            try (BufferedWriter writer = new BufferedWriter(fw)) {
-                writer.append(start);
-                writer.newLine();
-                for(Area a:area){
-                    writer.append("  <area>");
-                    writer.newLine();
-                    writer.append("      <name>" + a.getName() + "</name>");
-                    writer.newLine();
-                    writer.append("      <x_pos>" + a.getX() + "</x_pos>");
-                    writer.newLine();
-                    writer.append("      <y_pos>" + a.getY() + "</y_pos>");
-                    writer.newLine();
-                    writer.append("      <z_pos>" + a.getZ() + "</z_pos>");
-                    writer.newLine();
-                    String all_player = new String();
-                    for(String s:a.getAllPlayer()){
-                        all_player += s + " ";
-                    }
-                    all_player = all_player.trim();
-                    writer.append("      <players>" + all_player + "</players>");
-                    writer.newLine();
-                    writer.append("  </area>");
-                    writer.newLine();
-                    writer.flush();
-                }
-                writer.append(end);
-                writer.flush();
-                fw.close();
-            }
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(StorePoints.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(StorePoints.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        File old_file = new File(path + file_name);
-        f.renameTo(old_file);
-    }
-    
     public List<String> getAllNames(){
-        return names;
+        return writer.getAllNames();
     }
     
     /**
@@ -213,22 +65,11 @@ public class StorePoints {
      * @return the area or null if this area does not exists
      */
     public Area getAreaByName(String name){
-        for(Area a:area){
-            if(a.getName().equals(name)){
-                return a;
-            }
-        }
-        return null;
+        return writer.getAreaByName(name);
     }
     
     public boolean removeArea(Area a){
-        if(!area.contains(a)){
-            return false;
-        }
-        boolean b = area.remove(a);
-        names.remove(a.getName());
-        writeAll();
-        return b;
+        return writer.removeArea(a);
     }
     
     public boolean removeAreaByName(String name){
@@ -236,6 +77,10 @@ public class StorePoints {
     }
     
     public List<Area> getAllAreas(){
-        return area;
+        return writer.getAllAreas();
+    }
+    
+    public void writeAll(){
+        writer.writeAll();
     }
 }
