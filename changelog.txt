@@ -1,0 +1,9 @@
+v0.2
+Functional update
+Added:
+ - XML io has now its own thread
+ - Changed /create_location command to /ft_loc
+   - Added a remove functionality (Why did i forget it in v0.1?)
+
+v0.1
+Init release
