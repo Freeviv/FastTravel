@@ -29,6 +29,7 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
+import org.bukkit.Bukkit;
 
 /**
  *
@@ -69,6 +70,7 @@ public class XMLWriter implements Runnable {
         boolean y_pos = false;
         boolean z_pos = false;
         boolean player = false;
+        boolean dimension = false;
         boolean needsNewArea = true;
         Area a = null;
         while(reader.hasNext()){
@@ -94,6 +96,8 @@ public class XMLWriter implements Runnable {
                         z_pos = true;
                     } else if(seName.equalsIgnoreCase("players")){
                         player = true;
+                    } else if(seName.equalsIgnoreCase("dimension")){
+                        dimension = true;
                     }
                     break;
                 case XMLStreamConstants.CHARACTERS:
@@ -122,6 +126,10 @@ public class XMLWriter implements Runnable {
                         }
                         a.playerInit();
                         player = false;
+                    }if(dimension) {
+                        String world = chars.getData();
+                        a.setWorld(Bukkit.getWorld(world));
+                        dimension = false;
                     }
                     break;
             }
@@ -155,6 +163,8 @@ public class XMLWriter implements Runnable {
                     writer.append("      <y_pos>" + a.getY() + "</y_pos>");
                     writer.newLine();
                     writer.append("      <z_pos>" + a.getZ() + "</z_pos>");
+                    writer.newLine();
+                    writer.append("      <dimension>" + a.getWorld().getName() + "</dimension>");
                     writer.newLine();
                     String all_player = new String();
                     for(String s:a.getAllPlayer()){

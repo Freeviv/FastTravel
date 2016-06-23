@@ -15,6 +15,7 @@ package com.fasttravel.db;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.bukkit.World;
 
 /**
  *
@@ -50,6 +51,8 @@ public class Area {
      * Helper attribute for object serilization.
      */
     private boolean playerInit = false;
+    
+    private World dimension;
     
     /**
      * Contructor
@@ -93,6 +96,10 @@ public class Area {
      */
     public void setZ(int z){
         this.z = z;
+    }
+    
+    public void setWorld(World w){
+        dimension = w;
     }
     
     /**
@@ -176,5 +183,9 @@ public class Area {
      */
     public List<String> getAllPlayer(){
         return player;
+    }
+    
+    public World getWorld(){
+        return dimension;
     }
 }

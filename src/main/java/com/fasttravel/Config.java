@@ -25,6 +25,8 @@ public class Config {
      */
     public static double travel_time_factor;
     
+    
+    public static double WORLD_CHANGE_FACTOR;
     /**
      * The name for the xml file (currently unused!).
      */
@@ -71,6 +73,7 @@ public class Config {
     private boolean init_config(FileConfiguration c){
         c.addDefault("init", true);
         c.addDefault("travel_time_factor", (double)0.05);
+        c.addDefault("world_change_factor", (double)5);
         c.addDefault("file_name", "areas");
         c.addDefault("area_discover_radius", (int)10);
         return true;
@@ -83,6 +86,7 @@ public class Config {
      */
     private boolean load_config(FileConfiguration c){
         travel_time_factor = c.getDouble("travel_time_factor");
+        WORLD_CHANGE_FACTOR = c.getDouble("world_change_factor");
         name = c.getString("file_name");
         adr = c.getInt("area_discover_radius");
         return false;

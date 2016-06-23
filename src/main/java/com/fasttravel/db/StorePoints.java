@@ -14,6 +14,7 @@
 package com.fasttravel.db;
 
 import java.util.List;
+import org.bukkit.World;
 
 /**
  *
@@ -37,7 +38,7 @@ public class StorePoints {
         return instance;
     }
     
-    public boolean addArea(String name, int x,int y, int z){
+    public boolean addArea(String name,World w, int x,int y, int z){
         if(name == null || name.trim().isEmpty()){
             return false;
         }
@@ -47,6 +48,7 @@ public class StorePoints {
         a.setX(x);
         a.setY(y);
         a.setZ(z);
+        a.setWorld(w);
         writer.addArea(a);
         writer.writeAll();
         return true;

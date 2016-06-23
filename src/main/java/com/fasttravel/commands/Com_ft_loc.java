@@ -44,7 +44,7 @@ public class Com_ft_loc implements CommandExecutor {
                 player.sendMessage("The given name already exists!");
                 return false;
             }
-            StorePoints.getInstance().addArea(strings[1].trim(), player.getLocation().getBlockX(),player.getLocation().getBlockY(),player.getLocation().getBlockZ());
+            StorePoints.getInstance().addArea(strings[1].trim(),player.getLocation().getWorld(), player.getLocation().getBlockX(),player.getLocation().getBlockY(),player.getLocation().getBlockZ());
             player.sendMessage("Succesfully created new area!");
             return true;
         } else if(strings[0].equals("delete")){

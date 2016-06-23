@@ -99,19 +99,21 @@ public class Com_fast_travel implements CommandExecutor{
         double dis = Utils.getDistance(loc0, p.getLocation());
         double travel_time = Config.travel_time_factor * (dis/BLOCKS_PER_SECOND);
         int travel_time_in_sec = (int)Math.ceil(travel_time);
+        if(!p.getLocation().getWorld().equals(a.getWorld())){
+            travel_time_in_sec += Config.WORLD_CHANGE_FACTOR;
+        }
         p.sendMessage("You will arrive " + a.getName() + " in " + String.valueOf(travel_time_in_sec) + " seconds.");
-        
         p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20*travel_time_in_sec, -100));
         p.setGameMode(GameMode.SPECTATOR);
         p.teleport(new Location(p.getWorld(), p.getLocation().getBlockX(), 10000, p.getLocation().getBlockX()));
+        playSoundToPlayer(p,travel_time_in_sec,(double) 1.3);
         new BukkitRunnable() {
             @Override
             public void run() {
-                p.teleport(new Location(p.getLocation().getWorld(), a.getX(), a.getY(), a.getZ()));
+                p.teleport(new Location(a.getWorld(), a.getX(), a.getY(), a.getZ()));
                 p.setGameMode(g);
             }
         }.runTaskLater(pl, 20*travel_time_in_sec);
-        p.playSound(p.getLocation(), Sound.BLOCK_GRAVEL_STEP, (float) 0.3, 1);
     }
     
     private void showPlayerAllPoints(Player p){
@@ -132,8 +134,18 @@ public class Com_fast_travel implements CommandExecutor{
             b.setItemMeta(meta);
             inv.addItem(b);
          }
-         //inv.
-         
          p.openInventory(inv);
      }
+    
+    private static void playSoundToPlayer(Player p, int time_in_s, double dif_bet){
+        int t = (int) (time_in_s /dif_bet) + (int) (dif_bet + 1);
+        for(int i = 0; i < t; i++){
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    p.playSound(p.getLocation(), Sound.BLOCK_GRAVEL_STEP, (float) 0.3, 1);
+                }
+            }.runTaskLater(pl, (int)(20*i+dif_bet));
+        }
+    }
 }
