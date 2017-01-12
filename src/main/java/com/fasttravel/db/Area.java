@@ -42,10 +42,14 @@ public class Area {
      */
     private int z = Integer.MAX_VALUE;
     
+    
+    private String owner;
     /**
      * List of players who have already discovered the area.
      */
     private List<String> player;
+    
+    private List<String> allowed_player;
     
     /**
      * Helper attribute for object serilization.
@@ -134,6 +138,28 @@ public class Area {
         return false;
     }
     
+    public boolean addPlayerToWhitelist(String uuid) {
+        if(uuid == null || uuid.trim().isEmpty()){
+            return false;
+        }
+        if(allowed_player.contains(uuid)){
+            return true;
+        }
+        allowed_player.add(uuid);
+        return true;
+    }
+    
+    public boolean removePlayerFromWhitelist(String uuid) {
+        if(uuid == null || uuid.trim().isEmpty()){
+            return false;
+        }
+        if(allowed_player.contains(uuid)){
+            allowed_player.remove(uuid);
+            return true;
+        }
+        return false;
+    }
+    
     public String getName(){
         return name;
     }
@@ -185,7 +211,15 @@ public class Area {
         return player;
     }
     
+    public List<String> getAllAllowedPlayer() {
+        return allowed_player;
+    }
+    
     public World getWorld(){
         return dimension;
+    }
+    
+    public String getOwner() {
+        return owner;
     }
 }

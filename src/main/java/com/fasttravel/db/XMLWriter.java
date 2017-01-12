@@ -69,7 +69,9 @@ public class XMLWriter implements Runnable {
         boolean x_pos = false;
         boolean y_pos = false;
         boolean z_pos = false;
+        boolean owner = false; //TODO
         boolean player = false;
+        boolean w_player = false;//TODO
         boolean dimension = false;
         boolean needsNewArea = true;
         Area a = null;
@@ -94,8 +96,12 @@ public class XMLWriter implements Runnable {
                         y_pos = true;
                     } else if(seName.equalsIgnoreCase("z_pos")){
                         z_pos = true;
+                    } else if(seName.equalsIgnoreCase("owner")){
+                        owner = true;
                     } else if(seName.equalsIgnoreCase("players")){
                         player = true;
+                    } else if(seName.equalsIgnoreCase("wl_players")){
+                        w_player = true;
                     } else if(seName.equalsIgnoreCase("dimension")){
                         dimension = true;
                     }
@@ -119,6 +125,11 @@ public class XMLWriter implements Runnable {
                         a.setZ(Integer.parseInt(chars.getData()));
                         z_pos = false;
                     }
+                    if(owner) {
+                        String st_owner = chars.getData();
+                        a.addPlayerToWhitelist(st_owner);
+                        owner = false;
+                    }
                     if(player) {
                         String[] players = chars.getData().split(" ");
                         for(String s:players){
@@ -126,7 +137,15 @@ public class XMLWriter implements Runnable {
                         }
                         a.playerInit();
                         player = false;
-                    }if(dimension) {
+                    }
+                    if(w_player) {
+                        String[] wl_players = chars.getData().split(" ");
+                        for(String s:wl_players){
+                            a.addPlayerToWhitelist(s);
+                        }
+                        w_player = false;
+                    }
+                    if(dimension) {
                         String world = chars.getData();
                         a.setWorld(Bukkit.getWorld(world));
                         dimension = false;
@@ -166,12 +185,21 @@ public class XMLWriter implements Runnable {
                     writer.newLine();
                     writer.append("      <dimension>" + a.getWorld().getName() + "</dimension>");
                     writer.newLine();
+                    writer.append("      <owner>" + a.getOwner() + "</owner>");
+                    writer.newLine();
                     String all_player = new String();
                     for(String s:a.getAllPlayer()){
                         all_player += s + " ";
                     }
                     all_player = all_player.trim();
                     writer.append("      <players>" + all_player + "</players>");
+                    writer.newLine();
+                    String all_allowed_player = new String();
+                    for(String s:a.getAllAllowedPlayer()){
+                        all_allowed_player += s + " ";
+                    }
+                    all_allowed_player = all_allowed_player.trim();
+                    writer.append("      <wl_players>" + all_player + "</wl_players>");
                     writer.newLine();
                     writer.append("  </area>");
                     writer.newLine();
